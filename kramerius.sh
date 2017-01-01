@@ -35,8 +35,8 @@ echo "Soubory byly staženy vytvářim dokument..."
 
 shopt -s extglob
 
-OUTFILE=$NAME_TITLE
-DEFMASK="*.djvu"
+OUTFILE=$NAME_TITLE.djvu
+DEFMASK="${OUT_NAME:0:4}*.djvu"
 
 if [-n "$1" ]; then
    MASK=$1
@@ -48,9 +48,7 @@ djvm -c $OUTFILE $MASK
 
 echo "Dokument vytvořen, mažu soubory..."
 
-rm -r *.djvu
-mv $NAME_TITLE $NAME_TITLE.djvu
-rm -r $NAME_TITLE
+rm -r ${OUT_NAME:0:4}*.djvu
 
 echo "hotovo!!!"
 
