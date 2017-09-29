@@ -1,0 +1,52 @@
+#!/bin/sh
+echo""
+echo "		       VYBER STANICI"
+echo " ----------------------------------------------------------------"
+echo " |  1 KHFM                 [256]   6 Power bacK Radio    [320]  |"
+echo " |  2 Tyrant Metal Radio   [320]   7 ChroniX|AGGRESSION® [320]  |"
+echo " |  3 Carbon Element Radio [128]   8 Metal Express Radio [192]  |"
+echo " |  4 Leaf Pile Radio      [320]   9 The Metal Plague    [256]  |"
+echo " |  5 Power bacK Radio     [320]   10 SquiZZ             [320]  |"
+echo " |  11 Audiophile Classical[320]                                |"
+echo " ----------------------------------------------------------------"
+echo ""
+read -p "Stanice?  " value
+case $value in
+	1 | 1)
+		exec mplayer http://95.183.50.81:8006 
+		;;
+	2 | 2)
+		exec mplayer http://5.39.71.159:8440
+		;;
+	3 | 3)
+		exec mplayer http://149.56.240.65:20056
+		;;
+	4 | 4)
+		exec mplayer http://69.30.223.235:8020
+		;;
+	5 | 5)
+		exec mplayer http://198.58.106.133:8533
+		;;
+	6 | 6)
+		exec mplayer http://198.58.106.133:8533
+		;;
+	7 | 7)
+		exec mplayer http://192.95.18.39:5784
+		;;
+	8 | 8)
+		exec mplayer http://5.135.154.69:11590
+		;;
+	9 | 9)
+		exec mplayer http://142.4.217.133:8386
+		;;
+	10 |10)
+		exec mplayer http://192.240.102.133:12179
+		;;
+	11 | 11)
+		exec mplayer http://8.38.78.173:8093
+		;;
+	*)
+		exec mplayer http://198.58.106.133:8533
+		;;
+esac
+
