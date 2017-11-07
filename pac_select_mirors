@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# print warning
+
+YELLOW="`tput setaf 3`"
+NC="`tput sgr0`"
+
+warn()
+{
+    printf "%s[!] WARNING: %s%s\n" "${YELLOW}" "${@}" "${NC}"
+
+    return $SUCCESS
+}
+
+check_uid()
+{
+    if [ `id -u` -ne 0 ]
+    then
+        warn "You must be root to run pac_mirror_select "
+	exit
+    fi
+
+    return $SUCCESS
+}
+
+check_uid
+
+declare mirrold="cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup"
+    
+	printf "\n"
+        warn "This may take time depending on your connection"
+        $mirrold
+        sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
+        rankmirrors -n 3 /etc/pacman.d/mirrorlist.backup \
+            > /etc/pacman.d/mirrorlist
+
