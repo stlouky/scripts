@@ -61,7 +61,7 @@ else
 	done											
 fi
 
-echo "Sestavuji adresy....
+echo "Sestavuji adresy...."
 
 #------------------------------------------SESTAVENÍ ADRESS-----------------------------------------------------------------#
 
