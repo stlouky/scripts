@@ -1,52 +1,48 @@
 #!/bin/sh
 echo""
 echo "		       VYBER STANICI"
-echo " ----------------------------------------------------------------"
-echo " |  1 KHFM                 [256]   6 Power bacK Radio    [320]  |"
-echo " |  2 Tyrant Metal Radio   [320]   7 ChroniX|AGGRESSION® [320]  |"
-echo " |  3 Carbon Element Radio [128]   8 Metal Express Radio [192]  |"
-echo " |  4 Leaf Pile Radio      [320]   9 The Metal Plague    [256]  |"
-echo " |  5 Power bacK Radio     [320]   10 SquiZZ             [320]  |"
-echo " |  11 Audiophile Classical[320]                                |"
-echo " ----------------------------------------------------------------"
+echo " ------------------------------------------------------------------------ "
+echo " |  1 Metal Nation Radio      [256]   6 ChroniX | METALCORE®     [320]  | "
+echo " |  2 Metal Devastation Radio [128]   7 ChroniX|AGGRESSION®      [320]  | "
+echo " |  3 HardRadio               [128]   8 MPaganMetalRadio         [128]  | "
+echo " |  4 Metal Rock by Sonixcast [128]   9 RADIO METAL ON: THRASHER [128]  | "
+echo " |  5 Prog Palace Radio       [256]   10 Black Death --- WildCat [128]  | "
+echo " ------------------------------------------------------------------------ "
 echo ""
 read -p "Stanice?  " value
 case $value in
 	1 | 1)
-		exec mplayer http://95.183.50.81:8006 
+		exec mplayer http://198.100.145.185:8900 
 		;;
 	2 | 2)
-		exec mplayer http://5.39.71.159:8440
+		exec mplayer http://188.40.32.140:8061
 		;;
 	3 | 3)
-		exec mplayer http://149.56.240.65:20056
+		exec mplayer ttp://144.217.29.205:80
 		;;
 	4 | 4)
-		exec mplayer http://69.30.223.235:8020
+		exec mplayer http://149.56.74.125:9964
 		;;
 	5 | 5)
-		exec mplayer http://198.58.106.133:8533
+		exec mplayer ttp://69.162.103.66:8121
 		;;
 	6 | 6)
-		exec mplayer http://198.58.106.133:8533
+		exec mplayer http://192.95.18.39:5508
 		;;
 	7 | 7)
 		exec mplayer http://192.95.18.39:5784
 		;;
 	8 | 8)
-		exec mplayer http://5.135.154.69:11590
+		exec mplayer http://62.210.209.179:8030
 		;;
 	9 | 9)
-		exec mplayer http://142.4.217.133:8386
+		exec mplayer http://188.165.212.92:8020
 		;;
 	10 |10)
-		exec mplayer http://192.240.102.133:12179
-		;;
-	11 | 11)
-		exec mplayer http://8.38.78.173:8093
+		exec mplayer http://144.217.253.136:8508
 		;;
 	*)
-		exec mplayer http://198.58.106.133:8533
+		exec mplayer http://192.95.18.39:5784
 		;;
 esac
 
