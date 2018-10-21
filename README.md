@@ -9,4 +9,4 @@ transl.sh	 => najde v adresáři soubor *.srt a přeloží ho na google translá
             
 shout.sh	 => přehrává vybrané stanice ze streamu [shoutcast] [mplayer]
 
-bashrc_bak	 => kopie bashrc z archlinux (hledá: google výraz, nastavena path na #HOME/bin...atd.)) 
+bashrc_bak	 => kopie bashrc z archlinux (hledá: google výraz, git-completion??,nastavena path na #HOME/bin...atd.)) 
