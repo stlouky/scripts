@@ -8,6 +8,7 @@ NAME_FILE_IN=""                         #upravovany soubor
 NAME_FILE_OUT=""                        #upravený soubor
 TARGET_LANG="cs"                        #cílový jazyk
 SOURCE_LANG="en"                        #zdrojový jazyk
+TRANS_ENGINE="bing" 			#google, bing,...
 
 # patern tagy
 FI_TG="<i>" LA_TG="</i>" MEZ=" "
@@ -44,6 +45,10 @@ for i in "${array[@]}";do ((COUNT_MAX++)); done
 
 for e in "${array[@]}"
 do
+    #pokud e obsahuje \r smaž
+    if [[ $e =~ $'\r' ]]; then
+	e=${e:0:-1}
+    fi
     # smaž vše od [>]
     FIRST_TAG=${e:0:3}    
     # smaž vše až do [<]
@@ -60,6 +65,28 @@ do
         e="${e/$FI_TG/$MEZ}" 
         e="${e/$LA_TG/$MEZ}"
         
+        echo "<i>"$(trans -brief -e $TRANS_ENGINE "$e" $SOURCE_LANG:$TARGET_LANG)"</i>" >> $NAME_FILE_OUT
+        echo "[ $proc% ] "$e
+    else              
+        # test na písmeno a interpunkci? prvního znaku [a-z A-Z] [' " - . ,]
+        if [[ $FIRST_CHAR =~ $re ||
+              $FIRST_CHAR =~ $ra ||
+              $FIRST_CHAR =~ $ri ||
+              $FIRST_CHAR =~ $ro ||
+              $FIRST_CHAR =~ $ry ]]; then
+              
+            echo $(trans -brief -e $TRANS_ENGINE "$e" $SOURCE_LANG:$TARGET_LANG) >> $NAME_FILE_OUT 
+            echo "[ $proc% ] "$e
+        else
+            # při nesplnění podmínky zapíše do souboru nepřeložený text
+            echo $e >> $NAME_FILE_OUT
+        fi        
+    fi      
+done
+
+echo "Hotovo!!!"
+
+
         echo "<i>"$(translate-shell -brief "$e" $SOURCE_LANG:$TARGET_LANG)"</i>" >> $NAME_FILE_OUT
         echo "[ $proc% ] "$e
     else              
