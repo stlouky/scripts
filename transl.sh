@@ -13,7 +13,7 @@ TRANS_ENGINE="bing" 			#google, bing,...
 # patern tagy
 FI_TG="<i>" LA_TG="</i>" MEZ=" "
 # patern znaky [first char]
-re='[a-z A-Z]' ra="'" ri="-" ro='"' ry="."
+re='[a-z A-Z]' ra="'" ri="-" ro='"' ry="." nu='^[0-9]+$'
 
 echo -n "Zadej jméno souboru: "         #prompt
 read NAME_FILE_IN                       #přečte nazev souboru
@@ -49,6 +49,7 @@ do
     if [[ $e =~ $'\r' ]]; then
 	e=${e:0:-1}
     fi
+    #echo "[1]"$e
     # smaž vše od [>]
     FIRST_TAG=${e:0:3}    
     # smaž vše až do [<]
@@ -56,7 +57,7 @@ do
     
     # prvni char
     FIRST_CHAR=${e:0:1}
-    
+    #echo "[2]"$e
     proc=$((COUNT*100/COUNT_MAX))
     ((COUNT++))
     # testuj na tag [<i>] [</i>]
@@ -64,7 +65,7 @@ do
         # smaž tagy [nejdou přeložit]          
         e="${e/$FI_TG/$MEZ}" 
         e="${e/$LA_TG/$MEZ}"
-        
+        #echo "[3]"$e
         echo "<i>"$(trans -brief -e $TRANS_ENGINE "$e" $SOURCE_LANG:$TARGET_LANG)"</i>" >> $NAME_FILE_OUT
         echo "[ $proc% ] "$e
     else              
@@ -73,35 +74,15 @@ do
               $FIRST_CHAR =~ $ra ||
               $FIRST_CHAR =~ $ri ||
               $FIRST_CHAR =~ $ro ||
-              $FIRST_CHAR =~ $ry ]]; then
-              
+              $FIRST_CHAR =~ $ry &&
+	      $FIRST_CHAR =~ !$nu ]]; then
+            #echo "[4]"$e  
             echo $(trans -brief -e $TRANS_ENGINE "$e" $SOURCE_LANG:$TARGET_LANG) >> $NAME_FILE_OUT 
             echo "[ $proc% ] "$e
         else
             # při nesplnění podmínky zapíše do souboru nepřeložený text
-            echo $e >> $NAME_FILE_OUT
-        fi        
-    fi      
-done
-
-echo "Hotovo!!!"
-
-
-        echo "<i>"$(translate-shell -brief "$e" $SOURCE_LANG:$TARGET_LANG)"</i>" >> $NAME_FILE_OUT
-        echo "[ $proc% ] "$e
-    else              
-        # test na písmeno a interpunkci? prvního znaku [a-z A-Z] [' " - . ,]
-        if [[ $FIRST_CHAR =~ $re ||
-              $FIRST_CHAR =~ $ra ||
-              $FIRST_CHAR =~ $ri ||
-              $FIRST_CHAR =~ $ro ||
-              $FIRST_CHAR =~ $ry ]]; then
-              
-            echo $(translate-shell -brief "$e" $SOURCE_LANG:$TARGET_LANG) >> $NAME_FILE_OUT 
-            echo "[ $proc% ] "$e
-        else
-            # při nesplnění podmínky zapíše do souboru nepřeložený text
-            echo $e >> $NAME_FILE_OUT
+	    #echo "[5]"$e
+	    echo $e >> $NAME_FILE_OUT
         fi        
     fi      
 done
