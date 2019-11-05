@@ -2,11 +2,11 @@
 echo""
 echo "		       VYBER STANICI"
 echo " ------------------------------------------------------------------------ "
-echo " |  1 Metal Nation Radio      [256]   6 ChroniX | METALCORE®     [320]  | "
-echo " |  2 Metal Devastation Radio [128]   7 ChroniX|AGGRESSION®      [320]  | "
-echo " |  3 HardRadio               [128]   8 MPaganMetalRadio         [128]  | "
-echo " |  4 Metal Rock by Sonixcast [128]   9 RADIO METAL ON: THRASHER [128]  | "
-echo " |  5 Prog Palace Radio       [256]   10 Black Death --- WildCat [128]  | "
+echo " |  1 Metal Nation Radio      [256]   6 SteelCage Rock           [256]  | "
+echo " |  2 Megarock Radio          [320]   7 ChroniX|AGGRESSION®      [320]  | "
+echo " |  3 Metal Live Radio        [320]   8 Violent Forces Radio     [192]  | "
+echo " |  4 WildCat-radio           [192]   9 SquiZZ                   [320]  | "
+echo " |  5 Prog Palace Radio       [256]   10 The Metal Plague        [256]  | "
 echo " ------------------------------------------------------------------------ "
 echo ""
 read -p "Stanice?  " value
@@ -15,34 +15,33 @@ case $value in
 		exec mplayer http://198.100.145.185:8900 
 		;;
 	2 | 2)
-		exec mplayer http://188.40.32.140:8061
+		exec mplayer http://stream3.megarockradio.net:80
 		;;
 	3 | 3)
-		exec mplayer ttp://144.217.29.205:80
+		exec mplayer http://51.255.8.139:8738
 		;;
 	4 | 4)
-		exec mplayer http://149.56.74.125:9964
+		exec mplayer http://144.217.253.136:8508
 		;;
 	5 | 5)
-		exec mplayer ttp://69.162.103.66:8121
+		exec mplayer http://69.162.103.66:8121
 		;;
 	6 | 6)
-		exec mplayer http://192.95.18.39:5508
+		exec mplayer http://198.27.66.225:8096
 		;;
 	7 | 7)
 		exec mplayer http://192.95.18.39:5784
 		;;
 	8 | 8)
-		exec mplayer http://62.210.209.179:8030
+		exec mplayer http://167.114.210.232:8217
 		;;
 	9 | 9)
-		exec mplayer http://188.165.212.92:8020
+		exec mplayer  http://192.240.102.133:12179
 		;;
 	10 |10)
-		exec mplayer http://144.217.253.136:8508
+		exec mplayer http://142.4.217.133:8386
 		;;
 	*)
 		exec mplayer http://192.95.18.39:5784
 		;;
 esac
-
