@@ -2,61 +2,81 @@
 
 # Skript pro stahování DJVU stránek a vytvoření DJVU dokumentu
 
-# Zadejte adresu první stránky DJVU dokumentu
-read -p "Vložte adresu první stránky a stiskněte [ENTER]: " FIRST_URL
+# Ukončí skript při jakékoliv chybě
+set -e
 
-# Zadejte adresu poslední stránky DJVU dokumentu
-read -p "Vložte adresu poslední stránky a stiskněte [ENTER]: " SECOND_URL
-
-# Zadejte jméno vytvořeného dokumentu
-read -p "Vložte jméno dokumentu a stiskněte [ENTER]: " NAME_TITLE
-
-# Příprava proměnných
-PREFIX=2
-URL="${FIRST_URL%=*}"
-START_SUBPAGE="${FIRST_URL##*=}"
-END_SUBPAGE="${SECOND_URL##*=}"
-SUBPAGE=$START_SUBPAGE
-FIRST_PAGE="${FIRST_URL##*_}"
-FIRST_PAGE="${FIRST_PAGE%.*}"
-LAST_PAGE="${SECOND_URL##*_}"
-LAST_PAGE="${LAST_PAGE%.*}"
-CORE_URL="${FIRST_URL%_*}"
-
-# Funkce pro stahování jedné stránky
-function download_page() {
-    page_number=$1
-    OUT_NAME="${page_number}.djvu"
-    wget "${CORE_URL}_${page_number}.djvu?id=${START_SUBPAGE}" -O "${OUT_NAME}"
-    ((START_SUBPAGE = START_SUBPAGE + PREFIX))
+# Funkce pro získání uživatelského vstupu
+get_user_input() {
+    read -p "Vložte adresu první stránky a stiskněte [ENTER]: " FIRST_URL
+    read -p "Vložte adresu poslední stránky a stiskněte [ENTER]: " SECOND_URL
+    read -p "Vložte jméno dokumentu a stiskněte [ENTER]: " NAME_TITLE
 }
 
-echo "Začínám stahovat soubory..."
+# Funkce pro přípravu proměnných
+prepare_variables() {
+    PREFIX=2
+    URL="${FIRST_URL%=*}"
+    START_SUBPAGE="${FIRST_URL##*=}"
+    END_SUBPAGE="${SECOND_URL##*=}"
+    FIRST_PAGE="${FIRST_URL##*_}"
+    FIRST_PAGE="${FIRST_PAGE%.*}"
+    LAST_PAGE="${SECOND_URL##*_}"
+    LAST_PAGE="${LAST_PAGE%.*}"
+    CORE_URL="${FIRST_URL%_*}"
+}
 
-# Stahování dokumentu od prvního do posledního
-for ((i = FIRST_PAGE; i <= LAST_PAGE; i++)); do
-    download_page "$i"
-done
+# Funkce pro stahování jedné stránky
+download_page() {
+    local page_number=$1
+    local out_name="${page_number}.djvu"
+    if wget "${CORE_URL}_${page_number}.djvu?id=${START_SUBPAGE}" -O "${out_name}"; then
+        echo "Stránka ${page_number} byla úspěšně stažena."
+    else
+        echo "Chyba při stahování stránky ${page_number}."
+        exit 1
+    fi
+    ((START_SUBPAGE += PREFIX))
+}
 
-echo "Soubory byly staženy, vytvářím dokument..."
+# Funkce pro stahování všech stránek
+download_all_pages() {
+    echo "Začínám stahovat soubory..."
+    for ((i = FIRST_PAGE; i <= LAST_PAGE; i++)); do
+        download_page "$i"
+    done
+}
 
-# Příprava pro vytvoření DJVU dokumentu
-shopt -s extglob
-OUTFILE="${NAME_TITLE}.djvu"
-DEFMASK="*.djvu"
+# Funkce pro vytvoření DJVU dokumentu
+create_djvu_document() {
+    echo "Soubory byly staženy, vytvářím dokument..."
+    shopt -s extglob
+    local outfile="${NAME_TITLE}.djvu"
+    local defmask="*.djvu"
+    local mask="${1:-$defmask}"
 
-if [ -n "$1" ]; then
-    MASK="$1"
-else
-    MASK="$DEFMASK"
-fi
+    if djvm -c "${outfile}" $mask; then
+        echo "Dokument ${outfile} byl úspěšně vytvořen."
+    else
+        echo "Chyba při vytváření dokumentu ${outfile}."
+        exit 1
+    fi
+}
 
-# Vytvoření DJVU dokumentu
-djvm -c "${OUTFILE}" $MASK
+# Funkce pro úklid stažených souborů
+cleanup() {
+    echo "Dokument vytvořen, mažu soubory..."
+    rm -r *.djvu
+    echo "Hotovo!!!"
+}
 
-echo "Dokument vytvořen, mazu soubory..."
+# Hlavní část skriptu
+main() {
+    get_user_input
+    prepare_variables
+    download_all_pages
+    create_djvu_document
+    cleanup
+}
 
-# Smazání nepotřebných stránek
-rm -r *.djvu
-
-echo "Hotovo!!!"
+# Spuštění hlavní funkce
+main
